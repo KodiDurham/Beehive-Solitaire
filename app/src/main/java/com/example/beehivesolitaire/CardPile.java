@@ -19,6 +19,14 @@ public class CardPile {
             R.drawable.c_5d, R.drawable.c_6d, R.drawable.c_7d, R.drawable.c_8d, R.drawable.c_9d,
             R.drawable.c_td, R.drawable.c_jd, R.drawable.c_qd, R.drawable.c_kd};
 
+    public int getTopCard(){
+        return pile.get(pile.size()-1);
+    }
+
+    public int getSize(){
+        return pile.size();
+    }
+
     public void addCard(int cardNum){
         pile.add(cardNum);
     }
@@ -42,5 +50,9 @@ public class CardPile {
             if(pile.get(i)==num)
                 return true;
          return false;
+    }
+
+    public int getCardFace(int index){
+        return cardFaceImages[index];
     }
 }

@@ -61,20 +61,37 @@ public class MainActivity extends AppCompatActivity {
         displayBoard();
     }
 
-    public void displayBoard(){
+    private void displayBoard(){
         ImageView fg11=findViewById(R.id.iv_fg_11);
         ImageView fg12=findViewById(R.id.iv_fg_12);
         ImageView fg13=findViewById(R.id.iv_fg_13);
         ImageView fg21=findViewById(R.id.iv_fg_21);
         ImageView fg22=findViewById(R.id.iv_fg_22);
         ImageView fg23=findViewById(R.id.iv_fg_23);
+        ImageView deckIv=findViewById(R.id.iv_deck);
+        ImageView beehiveIv=findViewById(R.id.iv_beehive);
+        ImageView workingIv=findViewById(R.id.iv_working);
 
-        fg11.setImageResource(flowerG11.getCardFace(flowerG11.getTopCard()));
-        fg12.setImageResource(flowerG11.getCardFace(flowerG12.getTopCard()));
-        fg13.setImageResource(flowerG11.getCardFace(flowerG13.getTopCard()));
-        fg21.setImageResource(flowerG11.getCardFace(flowerG21.getTopCard()));
-        fg22.setImageResource(flowerG11.getCardFace(flowerG22.getTopCard()));
-        fg23.setImageResource(flowerG11.getCardFace(flowerG23.getTopCard()));
+        setFace(flowerG11,fg11);
+        setFace(flowerG12,fg12);
+        setFace(flowerG13,fg13);
+        setFace(flowerG21,fg21);
+        setFace(flowerG22,fg22);
+        setFace(flowerG23,fg23);
+        setFace(beehive,beehiveIv);
+        setFace(working,workingIv);
+
+        if (deck.getSize()==0)
+            deckIv.setImageResource(R.drawable.c_background2);
+        else
+            deckIv.setImageResource(R.drawable.c_b);
+    }
+
+    private void setFace(CardPile pile, ImageView view){
+        if(pile.getSize()==0)
+            view.setImageResource(R.drawable.c_background2);
+        else
+            view.setImageResource(pile.getCardFace(pile.getTopCard()));
     }
 
     private void moveCard(CardPile to, CardPile from){

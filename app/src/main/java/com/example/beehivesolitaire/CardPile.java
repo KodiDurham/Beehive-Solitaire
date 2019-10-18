@@ -1,9 +1,11 @@
 package com.example.beehivesolitaire;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CardPile {
-    protected List<Integer> pile;
+    private List<Integer> pile = new ArrayList<Integer>();
 
     protected static int[] cardFaceImages = { R.drawable.c_ac,  R.drawable.c_2c, R.drawable.c_3c,
             R.drawable.c_4c, R.drawable.c_5c, R.drawable.c_6c, R.drawable.c_7c, R.drawable.c_8c,
@@ -22,10 +24,23 @@ public class CardPile {
     }
 
     public int removeCard(){
-        return pile.remove(pile.size());
+        return pile.remove(pile.size()-1);
     }
 
     public void shuffle(){
-        
+        Random ranGen = new Random();
+        for(int i=0;i<pile.size();i++){
+            int ranNum= ranGen.nextInt(pile.size());
+            int temp=pile.get(ranNum);
+            pile.set( ranNum, pile.get(i));
+            pile.set( i, temp);
+        }
+    }
+
+    public boolean hasCard(int num){
+        for (int i = 0;i<pile.size();i++)
+            if(pile.get(i)==num)
+                return true;
+         return false;
     }
 }

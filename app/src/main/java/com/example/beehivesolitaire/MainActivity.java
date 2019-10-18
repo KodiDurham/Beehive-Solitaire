@@ -30,11 +30,30 @@ public class MainActivity extends AppCompatActivity {
     CardPile flowerG23=new CardPile();
 
 
+    ImageView fg11;
+    ImageView fg12;
+    ImageView fg13;
+    ImageView fg21;
+    ImageView fg22;
+    ImageView fg23;
+    ImageView deckIv;
+    ImageView beehiveIv;
+    ImageView workingIv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fg11 = findViewById(R.id.iv_fg_11);
+        fg12=findViewById(R.id.iv_fg_12);
+        fg13=findViewById(R.id.iv_fg_13);
+         fg21=findViewById(R.id.iv_fg_21);
+        fg22=findViewById(R.id.iv_fg_22);
+        fg23=findViewById(R.id.iv_fg_23);
+        deckIv=findViewById(R.id.iv_deck);
+        beehiveIv=findViewById(R.id.iv_beehive);
+        workingIv=findViewById(R.id.iv_working);
 
 
         //populate deck
@@ -59,18 +78,43 @@ public class MainActivity extends AppCompatActivity {
         moveCard(flowerG23, beehive);
 
         displayBoard();
+
+        flowerG11.setImageViewClick(fg11,this);
+        flowerG12.setImageViewClick(fg12,this);
+        flowerG13.setImageViewClick(fg13,this);
+        flowerG21.setImageViewClick(fg21,this);
+        flowerG22.setImageViewClick(fg22,this);
+        flowerG23.setImageViewClick(fg23,this);
+        beehive.setImageViewClick(beehiveIv,this);
+        working.setImageViewClick(workingIv,this);
+    }
+
+    public void pileClicked(CardPile pile){
+        pileMatchCheck(flowerG11,pile);
+        pileMatchCheck(flowerG12,pile);
+        pileMatchCheck(flowerG13,pile);
+        pileMatchCheck(flowerG21,pile);
+        pileMatchCheck(flowerG22,pile);
+        pileMatchCheck(flowerG23,pile);
+
+    }
+
+    public void pileMatchCheck(CardPile to, CardPile from){
+        if(from.getSize() > 0){
+            if(!(from==to)&& to.getSize()>0){
+                if(from.getTopCard()%13==to.getTopCard()%13){
+                    moveCard(to,from);
+                    //check if to is full
+                    //check if there is open gardens spots and move from beehive to and from
+                    //update piles
+                    displayBoard();
+                    //more stuff
+                }
+            }
+        }
     }
 
     private void displayBoard(){
-        ImageView fg11=findViewById(R.id.iv_fg_11);
-        ImageView fg12=findViewById(R.id.iv_fg_12);
-        ImageView fg13=findViewById(R.id.iv_fg_13);
-        ImageView fg21=findViewById(R.id.iv_fg_21);
-        ImageView fg22=findViewById(R.id.iv_fg_22);
-        ImageView fg23=findViewById(R.id.iv_fg_23);
-        ImageView deckIv=findViewById(R.id.iv_deck);
-        ImageView beehiveIv=findViewById(R.id.iv_beehive);
-        ImageView workingIv=findViewById(R.id.iv_working);
 
         setFace(flowerG11,fg11);
         setFace(flowerG12,fg12);

@@ -1,11 +1,15 @@
 package com.example.beehivesolitaire;
 
+import android.view.View;
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class CardPile {
     private List<Integer> pile = new ArrayList<Integer>();
+    private ImageView myImageView;
 
     protected static int[] cardFaceImages = { R.drawable.c_ac,  R.drawable.c_2c, R.drawable.c_3c,
             R.drawable.c_4c, R.drawable.c_5c, R.drawable.c_6c, R.drawable.c_7c, R.drawable.c_8c,
@@ -18,6 +22,7 @@ public class CardPile {
             R.drawable.c_kh, R.drawable.c_ad, R.drawable.c_2d, R.drawable.c_3d, R.drawable.c_4d,
             R.drawable.c_5d, R.drawable.c_6d, R.drawable.c_7d, R.drawable.c_8d, R.drawable.c_9d,
             R.drawable.c_td, R.drawable.c_jd, R.drawable.c_qd, R.drawable.c_kd};
+
 
     public int getTopCard(){
         return pile.get(pile.size()-1);
@@ -54,5 +59,16 @@ public class CardPile {
 
     public int getCardFace(int index){
         return cardFaceImages[index];
+    }
+
+    public void setImageViewClick(ImageView view, MainActivity mAct){
+        myImageView=view;
+        final MainActivity mainActivity = mAct;
+        myImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.pileClicked(CardPile.this);
+            }
+        });
     }
 }

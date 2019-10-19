@@ -42,8 +42,8 @@
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="409dp"
-        android:layout_height="354dp"
+        android:layout_width="0dp"
+        android:layout_height="324dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

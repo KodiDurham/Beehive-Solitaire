@@ -74,5 +74,6 @@ public class CardPile {
                 mainActivity.pileClicked(CardPile.this);
             }
         });
+
     }
 }

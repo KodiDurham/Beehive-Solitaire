@@ -135,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                 for (int i =0;i<3;i++)
                     if(deck.getSize()>0)
                         moveCard(working,deck);
-                    deckThrough++;
+                    if(working.getSize()>0)
+                        deckThrough++;
             }
             else if(pile==working){
                 for (int i = 0; i < 3; i++)

@@ -3,10 +3,10 @@ package com.example.beehivesolitaire;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         deckIv=findViewById(R.id.iv_deck);
         beehiveIv=findViewById(R.id.iv_beehive);
         workingIv=findViewById(R.id.iv_working);
+        Button newGameBnt=findViewById(R.id.bnt_newGame);
 
         flowerG11.setImageViewClick(fg11,this);
         flowerG12.setImageViewClick(fg12,this);
@@ -68,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         flowerG23.setImageViewClick(fg23,this);
         beehive.setImageViewClick(beehiveIv,this);
         working.setImageViewClick(workingIv,this);
+
+        newGameBnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newGame();
+            }
+        });
 
         //populate deck
         int numOfCards= numInSuits*numOfSuits;
@@ -159,16 +167,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean checkBoard(){
-        if(hasSolutiion(beehive)||hasSolutiion(flowerG11)||hasSolutiion(flowerG12)||hasSolutiion(flowerG13))
+        if(hasSolution(beehive)|| hasSolution(flowerG11)|| hasSolution(flowerG12)|| hasSolution(flowerG13))
             return true;
 
-        if(hasSolutiion(flowerG21)||hasSolutiion(flowerG22)||hasSolutiion(flowerG23))
+        if(hasSolution(flowerG21)|| hasSolution(flowerG22)|| hasSolution(flowerG23))
             return true;
 
         return false;
     }
 
-    public boolean hasSolutiion(CardPile pile){
+    public boolean hasSolution(CardPile pile){
         if (pileMatchCheck(flowerG11,pile)||pileMatchCheck(flowerG12,pile)||pileMatchCheck(flowerG13,pile))
             return true;
         return pileMatchCheck(flowerG21, pile) || pileMatchCheck(flowerG22, pile) || pileMatchCheck(flowerG23, pile);

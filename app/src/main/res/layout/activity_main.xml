@@ -103,8 +103,19 @@
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/c_background2" />
+
         </TableRow>
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:text="New Game"
+        app:layout_constraintBottom_toTopOf="@+id/iv_working"
+        app:layout_constraintEnd_toEndOf="@+id/iv_working"
+        app:layout_constraintStart_toStartOf="@+id/iv_working" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

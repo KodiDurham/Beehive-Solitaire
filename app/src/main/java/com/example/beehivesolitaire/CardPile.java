@@ -50,6 +50,11 @@ public class CardPile {
         }
     }
 
+    public void clear(){
+        pile.clear();
+    }
+
+
     public boolean hasCard(int num){
         for (int i = 0;i<pile.size();i++)
             if(pile.get(i)==num)

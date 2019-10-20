@@ -2,9 +2,12 @@ package com.example.beehivesolitaire;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private int numOfSuits=4;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView beehiveIv;
     ImageView workingIv;
 
+    int deckThrough=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
         beehiveIv=findViewById(R.id.iv_beehive);
         workingIv=findViewById(R.id.iv_working);
 
+        flowerG11.setImageViewClick(fg11,this);
+        flowerG12.setImageViewClick(fg12,this);
+        flowerG13.setImageViewClick(fg13,this);
+        flowerG21.setImageViewClick(fg21,this);
+        flowerG22.setImageViewClick(fg22,this);
+        flowerG23.setImageViewClick(fg23,this);
+        beehive.setImageViewClick(beehiveIv,this);
+        working.setImageViewClick(workingIv,this);
 
         //populate deck
         int numOfCards= numInSuits*numOfSuits;
@@ -70,48 +83,137 @@ public class MainActivity extends AppCompatActivity {
 
 
         //deal each pile of the flower garden a card from hive
-        moveCard(flowerG11, beehive);
-        moveCard(flowerG12, beehive);
-        moveCard(flowerG13, beehive);
-        moveCard(flowerG21, beehive);
-        moveCard(flowerG22, beehive);
-        moveCard(flowerG23, beehive);
+        moveCard(flowerG11, deck);
+        moveCard(flowerG12, deck);
+        moveCard(flowerG13, deck);
+        moveCard(flowerG21, deck);
+        moveCard(flowerG22, deck);
+        moveCard(flowerG23, deck);
 
+        if(!checkBoard()){
+            if(working.getSize()<1 && deck.getSize()>0) {
+                for (int i = 0; i < 3; i++)
+                    if (deck.getSize() > 0)
+                        moveCard(working, deck);
+            }
+
+        }
         displayBoard();
-
-        flowerG11.setImageViewClick(fg11,this);
-        flowerG12.setImageViewClick(fg12,this);
-        flowerG13.setImageViewClick(fg13,this);
-        flowerG21.setImageViewClick(fg21,this);
-        flowerG22.setImageViewClick(fg22,this);
-        flowerG23.setImageViewClick(fg23,this);
-        beehive.setImageViewClick(beehiveIv,this);
-        working.setImageViewClick(workingIv,this);
     }
 
     public void pileClicked(CardPile pile){
-        pileMatchCheck(flowerG11,pile);
-        pileMatchCheck(flowerG12,pile);
-        pileMatchCheck(flowerG13,pile);
-        pileMatchCheck(flowerG21,pile);
-        pileMatchCheck(flowerG22,pile);
-        pileMatchCheck(flowerG23,pile);
-
-    }
-
-    public void pileMatchCheck(CardPile to, CardPile from){
-        if(from.getSize() > 0){
-            if(!(from==to)&& to.getSize()>0){
-                if(from.getTopCard()%13==to.getTopCard()%13){
-                    moveCard(to,from);
-                    //check if to is full
-                    //check if there is open gardens spots and move from beehive to and from
-                    //update piles
-                    displayBoard();
-                    //more stuff
-                }
+        if (pileMatchCheck(flowerG11,pile)){
+            progressBoard(flowerG11,pile);
+        }else
+        if (pileMatchCheck(flowerG12,pile)){
+            progressBoard(flowerG12,pile);
+        }else
+        if (pileMatchCheck(flowerG13,pile)){
+            progressBoard(flowerG13,pile);
+        }else
+        if (pileMatchCheck(flowerG21,pile)){
+            progressBoard(flowerG21,pile);
+        }else
+        if (pileMatchCheck(flowerG22,pile)){
+            progressBoard(flowerG22,pile);
+        }else
+        if (pileMatchCheck(flowerG23,pile)){
+            progressBoard(flowerG23,pile);
+        }else
+        if(!checkBoard()){
+            if(deck.getSize()==0) {
+                while (working.getSize() > 0)
+                    moveCard(deck, working);
+                for (int i =0;i<3;i++)
+                    if(deck.getSize()>0)
+                        moveCard(working,deck);
+                    deckThrough++;
+            }
+            else if(pile==working){
+                for (int i = 0; i < 3; i++)
+                    if (deck.getSize() > 0) {
+                        moveCard(working, deck);
+                    }
             }
         }
+        displayBoard();
+
+        //check win/lose
+        if (deckThrough>1) {
+            Context context = getApplicationContext();
+            CharSequence text = "you lost";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        if(flowerG11.getSize()==0 && flowerG12.getSize()==0 && flowerG13.getSize()==0)
+            if(flowerG21.getSize()==0 && flowerG22.getSize()==0 && flowerG23.getSize()==0){
+                Context context = getApplicationContext();
+                CharSequence text = "you win";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+    }
+
+    public boolean checkBoard(){
+        if(hasSolutiion(beehive)||hasSolutiion(flowerG11)||hasSolutiion(flowerG12)||hasSolutiion(flowerG13))
+            return true;
+
+        if(hasSolutiion(flowerG21)||hasSolutiion(flowerG22)||hasSolutiion(flowerG23))
+            return true;
+
+        return false;
+    }
+
+    public boolean hasSolutiion(CardPile pile){
+        if (pileMatchCheck(flowerG11,pile)||pileMatchCheck(flowerG12,pile)||pileMatchCheck(flowerG13,pile))
+            return true;
+        return pileMatchCheck(flowerG21, pile) || pileMatchCheck(flowerG22, pile) || pileMatchCheck(flowerG23, pile);
+    }
+
+    public void progressBoard(CardPile to, CardPile from){
+        if (from==beehive||from==working)
+            moveCard(to,from);
+        else
+            while(from.getSize()>0)
+                moveCard(to,from);
+        //check if to is full
+        if(to.getSize()==4)
+            to.clear();
+        //check if there is open gardens spots and move from beehive to and from
+        if (to.getSize()==0){
+            fillGarden(to);
+        }
+        if (from.getSize()==0&&!(from==beehive||from==working)){
+            fillGarden(from);
+        }
+        //trun gone through to false
+        deckThrough=0;
+    }
+
+    public void fillGarden(CardPile pile){
+        if(beehive.getSize()==0){
+            if(working.getSize()==0){
+                for (int i= 0; i<3;i++)
+                    if (deck.getSize()>0)
+                        moveCard(working,deck);
+            }
+            if (deck.getSize()>0)
+                moveCard(pile,working);
+            return;
+        }
+        moveCard(pile,beehive);
+    }
+
+    public boolean pileMatchCheck(CardPile to, CardPile from){
+        if(from.getSize() > 0)
+            if(!(from==to)&& to.getSize()>0)
+                return from.getTopCard() % 13 == to.getTopCard() % 13;
+
+        return false;
     }
 
     private void displayBoard(){
@@ -140,5 +242,49 @@ public class MainActivity extends AppCompatActivity {
 
     private void moveCard(CardPile to, CardPile from){
         to.addCard(from.removeCard());
+    }
+
+    private void newGame(){
+        //clear all piles
+        deck.clear();
+        beehive.clear();
+        working.clear();
+        flowerG11.clear();
+        flowerG12.clear();
+        flowerG13.clear();
+        flowerG21.clear();
+        flowerG22.clear();
+        flowerG23.clear();
+
+        //populate deck
+        int numOfCards= numInSuits*numOfSuits;
+        for (int i = 0; i<numOfCards;i++)
+            deck.addCard(i);
+
+        //shuffle deck
+        deck.shuffle();
+
+        //cut top 10 from deck to beehive
+        for (int i =0;i<10;i++)
+            moveCard(beehive, deck);
+
+
+        //deal each pile of the flower garden a card from hive
+        moveCard(flowerG11, deck);
+        moveCard(flowerG12, deck);
+        moveCard(flowerG13, deck);
+        moveCard(flowerG21, deck);
+        moveCard(flowerG22, deck);
+        moveCard(flowerG23, deck);
+
+        if(!checkBoard()){
+            if(working.getSize()<1 && deck.getSize()>0) {
+                for (int i = 0; i < 3; i++)
+                    if (deck.getSize() > 0)
+                        moveCard(working, deck);
+            }
+
+        }
+        displayBoard();
     }
 }

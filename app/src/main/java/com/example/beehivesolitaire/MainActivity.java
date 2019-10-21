@@ -199,22 +199,22 @@ public class MainActivity extends AppCompatActivity {
         if (from.getSize()==0&&!(from==beehive||from==working)){
             fillGarden(from);
         }
-        //trun gone through to false
+        //turn gone through to false
         deckThrough=0;
     }
 
     public void fillGarden(CardPile pile){
-        if(beehive.getSize()==0){
-            if(working.getSize()==0){
+        if(beehive.getSize()<1){
+            if(working.getSize()<1){
                 for (int i= 0; i<3;i++)
                     if (deck.getSize()>0)
                         moveCard(working,deck);
             }
-            if (deck.getSize()>0)
+            if (working.getSize()>0)
                 moveCard(pile,working);
-            return;
-        }
-        moveCard(pile,beehive);
+
+        }else
+            moveCard(pile,beehive);
     }
 
     public boolean pileMatchCheck(CardPile to, CardPile from){

@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         if (pileMatchCheck(flowerG23,pile)){
             progressBoard(flowerG23,pile);
         }else
-        if(!checkBoard()){
+        if(!checkBoard() && pile==working){
             if(deck.getSize()==0) {
                 while (working.getSize() > 0)
                     moveCard(deck, working);
@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i =0;i<10;i++)
             moveCard(beehive, deck);
 
+        deckThrough=0;
 
         //deal each pile of the flower garden a card from hive
         moveCard(flowerG11, deck);

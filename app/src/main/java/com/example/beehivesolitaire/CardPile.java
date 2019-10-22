@@ -1,5 +1,8 @@
 package com.example.beehivesolitaire;
 
+import android.content.ClipData;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -26,6 +29,10 @@ public class CardPile {
 
     public int getTopCard(){
         return pile.get(pile.size()-1);
+    }
+
+    public int getSecondCard(){
+        return pile.get(pile.size()-2);
     }
 
     public int getSize(){
@@ -68,10 +75,43 @@ public class CardPile {
     public void setImageViewClick(ImageView view, MainActivity mAct){
         myImageView=view;
         final MainActivity mainActivity = mAct;
-        myImageView.setOnClickListener(new View.OnClickListener() {
+        /*myImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mainActivity.pileClicked(CardPile.this);
+            }
+        });*/
+
+        myImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                    mainActivity.pileDragged(CardPile.this,view);
+
+                    return true;
+                }
+
+//                if (motionEvent.getAction()==MotionEvent.ACTION_UP){
+//                    mainActivity.pileClicked(CardPile.this);
+//
+//
+//                    return true;
+//                }
+
+                return false;
+            }
+        });
+
+        myImageView.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+
+                switch (dragEvent.getAction()){
+                    case DragEvent.ACTION_DROP:
+                        mainActivity.pileDropped((ImageView) dragEvent.getLocalState(),CardPile.this);
+                }
+
+                return true;
             }
         });
 

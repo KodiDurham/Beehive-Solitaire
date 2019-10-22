@@ -2,6 +2,7 @@ package com.example.beehivesolitaire;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -106,6 +107,64 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+        displayBoard();
+    }
+
+    public void pileDragged(CardPile pile, View view){
+        final ImageView cardView;
+
+        if(pile==flowerG11)
+            cardView=fg11;
+        else if(pile==flowerG12)
+            cardView=fg12;
+        else if(pile==flowerG13)
+            cardView=fg13;
+        else if(pile==flowerG21)
+            cardView=fg21;
+        else if(pile==flowerG22)
+            cardView=fg22;
+        else if(pile==flowerG23)
+            cardView=fg23;
+        else if(pile==beehive)
+            cardView=beehiveIv;
+        else //(pile==working)
+            cardView = workingIv;
+
+        ClipData data = ClipData.newPlainText("","");
+        View.DragShadowBuilder shadowBuilder=new View.DragShadowBuilder(view);
+        view.startDrag(data,shadowBuilder, view,0);
+        if(pile.getSize()>1)
+            cardView.setImageResource(pile.getCardFace(pile.getSecondCard()));
+    }
+
+    public void pileDropped(ImageView dropAt, CardPile from){
+        final CardPile to;
+
+        if(dropAt==fg11)
+            to=flowerG11;
+        else if(dropAt==fg12)
+            to=flowerG12;
+        else if(dropAt==fg13)
+            to=flowerG13;
+        else if(dropAt==fg21)
+            to=flowerG21;
+        else if(dropAt==fg22)
+            to=flowerG22;
+        else if(dropAt==fg23)
+            to=flowerG23;
+        else if(dropAt==beehiveIv)
+            to=beehive;
+        else if(dropAt==workingIv)
+            to=working;
+        else
+            to=null;
+
+        if(to!=null){
+            if (to!=from)
+                if(pileMatchCheck(from,to))
+                    progressBoard(from, to);
+        }
+
         displayBoard();
     }
 

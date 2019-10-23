@@ -40,6 +40,17 @@
         app:layout_constraintTop_toTopOf="@+id/iv_deck"
         app:srcCompat="@drawable/c_background2" />
 
+    <TextView
+        android:id="@+id/tv_clickForWork"
+        android:layout_width="55dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="Click for working"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_working"
+        app:layout_constraintEnd_toEndOf="@+id/iv_working"
+        app:layout_constraintStart_toStartOf="@+id/iv_working"
+        app:layout_constraintTop_toTopOf="@+id/iv_working" />
+
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="0dp"
